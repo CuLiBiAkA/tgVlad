@@ -84,106 +84,31 @@ public class CreateButton {
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        if (s.length == 2) {
+        int i =0;
+        while (i+1<s.length){
             KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
+            keyboardFirstRow.add(s[1+i]);
             keyboard.add(keyboardFirstRow);
+            i++;
         }
 
-        if (s.length == 3) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[2]);
-            keyboard.add(keyboardFirstRow);
-        }
-
-        if (s.length == 4) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[2]);
-            keyboardFirstRow.add(s[3]);
-            keyboard.add(keyboardFirstRow);
-        }
-
-        if (s.length == 5) {
-            // Первая строчка клавиатуры
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            // Добавляем кнопки в первую строчку клавиатуры
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[3]);
-
-            // Вторая строчка клавиатуры
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            // Добавляем кнопки во вторую строчку клавиатуры
-            keyboardSecondRow.add(s[2]);
-            keyboardSecondRow.add(s[4]);
-
-            // Добавляем все строчки клавиатуры в список
-            keyboard.add(keyboardFirstRow);
-            keyboard.add(keyboardSecondRow);
-        }
-
-        if (s.length == 6) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[2]);
-            keyboardFirstRow.add(s[3]);
-            keyboardSecondRow.add(s[4]);
-            keyboardSecondRow.add(s[5]);
-            keyboard.add(keyboardFirstRow);
-            keyboard.add(keyboardSecondRow);
-
-        }
-
-        if (s.length == 7) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[2]);
-            keyboardFirstRow.add(s[3]);
-            keyboardSecondRow.add(s[4]);
-            keyboardSecondRow.add(s[5]);
-            keyboardSecondRow.add(s[6]);
-
-            keyboard.add(keyboardFirstRow);
-            keyboard.add(keyboardSecondRow);
-        }
-
-        if (s.length == 8) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            KeyboardRow keyboardTreeRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[2]);
-            keyboardFirstRow.add(s[3]);
-            keyboardSecondRow.add(s[4]);
-            keyboardSecondRow.add(s[5]);
-            keyboardTreeRow.add(s[6]);
-            keyboardTreeRow.add(s[7]);
-
-            keyboard.add(keyboardFirstRow);
-            keyboard.add(keyboardSecondRow);
-            keyboard.add(keyboardTreeRow);
-        }
-
-        if (s.length == 9) {
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            KeyboardRow keyboardTreeRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1]);
-            keyboardFirstRow.add(s[2]);
-            keyboardFirstRow.add(s[3]);
-            keyboardSecondRow.add(s[4]);
-            keyboardSecondRow.add(s[5]);
-            keyboardTreeRow.add(s[6]);
-            keyboardTreeRow.add(s[7]);
-            keyboardTreeRow.add(s[8]);
-
-            keyboard.add(keyboardFirstRow);
-            keyboard.add(keyboardSecondRow);
-            keyboard.add(keyboardTreeRow);
-        }
+//        if (s.length == 9) {
+//            KeyboardRow keyboardFirstRow = new KeyboardRow();
+//            KeyboardRow keyboardSecondRow = new KeyboardRow();
+//            KeyboardRow keyboardTreeRow = new KeyboardRow();
+//            keyboardFirstRow.add(s[1]);
+//            keyboardFirstRow.add(s[2]);
+//            keyboardFirstRow.add(s[3]);
+//            keyboardSecondRow.add(s[4]);
+//            keyboardSecondRow.add(s[5]);
+//            keyboardTreeRow.add(s[6]);
+//            keyboardTreeRow.add(s[7]);
+//            keyboardTreeRow.add(s[8]);
+//
+//            keyboard.add(keyboardFirstRow);
+//            keyboard.add(keyboardSecondRow);
+//            keyboard.add(keyboardTreeRow);
+//        }
         // и устанавливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
         // какой-то маркер
