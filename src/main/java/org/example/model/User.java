@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,23 +31,16 @@ public class User {
     @Column(name = "fistName_user")
     private String fistName;
 
+    @Column(name = "user_tg_id")
+    private Long userTgId;
+
 
     @Column(name = "name_user")
-    private String userName;
+    private String number;
 
     @Column(name = "chat_id")
-    private String chatId;
+    private Long chatId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }

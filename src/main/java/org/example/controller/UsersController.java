@@ -26,6 +26,6 @@ public class UsersController {
     @RequestMapping(path = "bot", method = RequestMethod.GET)
     public List<User> getIdeaList() {
         log.debug("Method - getIdeaList was called");
-        return userService.getUserList();
+        return null;
     }
 }

@@ -2,6 +2,10 @@ package org.example.service.telegram;
 
 import lombok.SneakyThrows;
 import org.example.config.Command;
+import org.example.model.Order;
+import org.example.model.User;
+import org.example.service.OrderService;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -23,9 +27,16 @@ public class CreateButton {
     @Autowired
     private Command command;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
+
     private final Map<String, Supplier<SendMessage>> map = new HashMap<>();
 
     private final Map<Long, ArrayDeque<String>> listStep = new ConcurrentHashMap<>();
+
 
     private volatile int initFistMap = 0;
 
@@ -34,7 +45,7 @@ public class CreateButton {
         map.put(command.getREQUEST(), this::sendRequest);
         map.put(command.getSTART(), this::mainMenu);
         map.put(command.getCALLBACK(), this::callBack);
-        map.put(command.getMY_REQUEST(), this::myRequest);
+//        map.put(command.getMY_REQUEST(), this::myRequest);
         map.put(command.getLEAVE_FEEDBACK(), this::leaveFeedback);
         map.put(command.getHOB(), this::hob);
         map.put(command.getOVEN(), this::oven);
@@ -48,6 +59,8 @@ public class CreateButton {
         map.put(command.getBURNING(), this::burning);
         map.put(command.getSEND(), this::send);
         map.put(command.getMENU(), this::mainMenu);
+        map.put(command.getCALL(), this::call);
+        map.put(command.getCALL_BACK(), this::callBackPhone);
     }
 
     public SendMessage inCommand(Update update) {
@@ -60,6 +73,9 @@ public class CreateButton {
         if (commanda.equals(command.getBACK())) {
             return backMethod(update);
         }
+        if (commanda.equals(command.getMY_REQUEST())) {
+            return myRequest(update);
+        }
 
         if (map.containsKey(commanda)) {
             listStepAdd(update);
@@ -71,7 +87,7 @@ public class CreateButton {
 
 
     @SneakyThrows
-    static public SendMessage creteButton(String[] s) {
+    static public SendMessage creteButton(ArrayList<String> s) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         // Создаем клавиатуру
@@ -84,86 +100,154 @@ public class CreateButton {
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        int i =0;
-        while (i+1<s.length){
+        int i = 0;
+        while (i + 1 < s.size()) {
             KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(s[1+i]);
+            keyboardFirstRow.add(s.get(1 + i));
             keyboard.add(keyboardFirstRow);
             i++;
         }
-
-//        if (s.length == 9) {
-//            KeyboardRow keyboardFirstRow = new KeyboardRow();
-//            KeyboardRow keyboardSecondRow = new KeyboardRow();
-//            KeyboardRow keyboardTreeRow = new KeyboardRow();
-//            keyboardFirstRow.add(s[1]);
-//            keyboardFirstRow.add(s[2]);
-//            keyboardFirstRow.add(s[3]);
-//            keyboardSecondRow.add(s[4]);
-//            keyboardSecondRow.add(s[5]);
-//            keyboardTreeRow.add(s[6]);
-//            keyboardTreeRow.add(s[7]);
-//            keyboardTreeRow.add(s[8]);
-//
-//            keyboard.add(keyboardFirstRow);
-//            keyboard.add(keyboardSecondRow);
-//            keyboard.add(keyboardTreeRow);
-//        }
         // и устанавливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
         // какой-то маркер
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         // дособираем ответочку
-        sendMessage.setText(s[0]);
+        sendMessage.setText(s.get(0));
         //отправляем сообщение
         return sendMessage;
     }
 
     @SneakyThrows
     public SendMessage mainMenu() {
-        //передаем 1 сообщения поясняющее, что за меню, остальные кнопки по порядку
-        return creteButton(new String[]{"Главное меню", command.getREQUEST(), command.getMY_REQUEST(), command.getCALLBACK(), command.getLEAVE_FEEDBACK()});
+        var list = new ArrayList<String>();
+        list.add("Главное меню");
+        list.add(command.getREQUEST());
+        list.add(command.getMY_REQUEST());
+        list.add(command.getCALLBACK());
+        list.add(command.getLEAVE_FEEDBACK());
+        return creteButton(list);
     }
 
     //оставить заявку с этого метода будет дергаться что сломалось
     @SneakyThrows
     public SendMessage sendRequest() {
-        return creteButton(new String[]{"Оставьте заявку, для этого вам нужно выбрать, что сломалось?", command.getHOB(), command.getOVEN(), command.getWASHING_MACHINE(), command.getDRYER(), command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Оставьте заявку, для этого вам нужно выбрать, что сломалось?");
+        list.add(command.getHOB());
+        list.add(command.getOVEN());
+        list.add(command.getWASHING_MACHINE());
+        list.add(command.getDRYER());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
-    public SendMessage myRequest() {
-        return creteButton(new String[]{"Список ваших заявок", command.getBACK()});
+    public SendMessage myRequest(Update update) {
+        var user = userService.getUserByChatId(update.getMessage().getChatId());
+        List<Order> list = new ArrayList<>();
+        if (user != null) {
+            list = user.getOrders();
+        }
+        var iterator = list.iterator();
+
+        var stringMassive = new ArrayList<String>();
+        stringMassive.add("Список ваших заявок");
+
+        while (iterator.hasNext()) {
+            var d = iterator.next();
+
+            stringMassive.add("Заявка №" + d.getId());
+        }
+        stringMassive.add(command.getMENU());
+
+        return creteButton(stringMassive);
     }
 
     @SneakyThrows
     public SendMessage callBack() {
-        return creteButton(new String[]{"Хотите связаться с мастером?", "Связаться", command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Хотите связаться с мастером?");
+        list.add(command.getCALL());
+        list.add(command.getCALL_BACK());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage leaveFeedback() {
-        return creteButton(new String[]{"Можете написать ваш отзыв", command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Можете написать ваш отзыв");
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage hob() {
-        return creteButton(new String[]{"Что с вашей варочной панелью?", command.getNOT_ON(), command.getAUTOMATA(), command.getBURNER(), command.getBURNING(), command.getWORKING(), command.getOTHER(), command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Что с вашей варочной панелью?");
+        list.add(command.getNOT_ON());
+        list.add(command.getAUTOMATA());
+        list.add(command.getBURNER());
+        list.add(command.getBURNING());
+        list.add(command.getWORKING());
+        list.add(command.getOTHER());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage oven() {
-        return creteButton(new String[]{"Что с вашей духовкой?", command.getNOT_ON(), command.getAUTOMATA(), command.getBURNER(), command.getBURNING(), command.getWORKING(), command.getOTHER(), command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Что с вашей духовкой?");
+        list.add(command.getNOT_ON());
+        list.add(command.getAUTOMATA());
+        list.add(command.getNOT_WORK());
+        list.add(command.getNOT_HOT());
+        list.add(command.getVERY_HOT());
+        list.add(command.getNOT_WORK_CULLER());
+        list.add(command.getOTHER());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage washingMachine() {
-        return creteButton(new String[]{"Что с вашей стиральной машиной?", command.getNOT_ON(), command.getAUTOMATA(), command.getBURNER(), command.getBURNING(), command.getWORKING(), command.getOTHER(), command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Что с вашей стиральной машиной?");
+        list.add(command.getNOT_ON());
+        list.add(command.getAUTOMATA());
+        list.add(command.getNOT_CLOSE());
+        list.add(command.getNOT_OPEN());
+        list.add(command.getNOT_PURE());
+        list.add(command.getNOT_DRAIN());
+        list.add(command.getNOT_HOT());
+        list.add(command.getNOT_ROLLING());
+        list.add(command.getNOES());
+        list.add(command.getTECH());
+        list.add(command.getERROR());
+        list.add(command.getTOK());
+        list.add(command.getHANGAR_SMELL());
+        list.add(command.getRUN_TO_ROOM());
+        list.add(command.getOTHER());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage dryer() {
-        return creteButton(new String[]{"Что с вашей сушильной машиной?", command.getNOT_ON(), command.getAUTOMATA(), command.getBURNER(), command.getBURNING(), command.getWORKING(), command.getOTHER(), command.getBACK()});
+        var list = new ArrayList<String>();
+        list.add("Что с вашей сушильной машиной?");
+        list.add(command.getNOT_ON());
+        list.add(command.getAUTOMATA());
+        list.add(command.getNOT_CLOSE());
+        list.add(command.getNOT_OPEN());
+        list.add(command.getTECH());
+        list.add(command.getERROR());
+        list.add(command.getADD_TIME());
+        list.add(command.getWORKING());
+        list.add(command.getOTHER());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
@@ -197,14 +281,37 @@ public class CreateButton {
     }
 
     @SneakyThrows
-    public SendMessage lastMethod() {
-        return creteButton(new String[]{"Ваша заявка", command.getSEND(), command.getBACK()});
+    private SendMessage callBackPhone() {
+        var list = new ArrayList<String>();
+        list.add("Мастер свяжется с вами в ближайшее время");
+        list.add(command.getBACK());
+        return creteButton(list);
+    }
 
+    @SneakyThrows
+    private SendMessage call() {
+        var list = new ArrayList<String>();
+        list.add("Вашего мастера зовут Владислав, \n его номер: +7 (906) 217-01-72 ");
+        list.add(command.getBACK());
+        return creteButton(list);
+    }
+
+    @SneakyThrows
+    public SendMessage lastMethod() {
+        var list = new ArrayList<String>();
+        list.add("Отправить заявку?");
+        list.add(command.getSEND());
+        list.add(command.getBACK());
+        return creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage send() {
-        return creteButton(new String[]{"Ваша заявка №" + Math.random() + " в обработке", command.getMENU()});
+        var list = new ArrayList<String>();
+        list.add("Ваша заявка принята, в истории заявок можно уточнить ее статус");
+        list.add(command.getMY_REQUEST());
+        list.add(command.getMENU());
+        return creteButton(list);
     }
 
     @SneakyThrows
@@ -235,5 +342,31 @@ public class CreateButton {
             listStep.get(chatIdLocal).clear();
         }
         listStep.get(chatIdLocal).add(commandLocal);
+        if (commandLocal.equals(command.getSEND())) {
+            dbStepAdd(update);
+        }
+    }
+
+    @SneakyThrows
+    public void dbStepAdd(Update update) {
+        User user = userService.getUserByChatId(update.getMessage().getChatId());
+        if (user == null) {
+            user = new User();
+//            user.setNumber(update.getMessage().getContact().getPhoneNumber());
+//            user.setFistName(update.getMessage().getContact().getFirstName());
+//            user.setUserTgId(update.getMessage().getContact().getUserId());
+            user.setChatId(update.getMessage().getChatId());
+            userService.saveUser(user);
+            user = userService.getUserByChatId(update.getMessage().getChatId());
+        }
+        Order order = new Order(null,
+                "в обработке",
+                "Пока не заполнен",
+                0,
+                listStep.get(update.getMessage().getChatId()).toString(),
+                user);
+
+        orderService.saveOrder(order);
     }
 }
+

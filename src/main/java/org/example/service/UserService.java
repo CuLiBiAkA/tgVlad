@@ -1,17 +1,18 @@
 package org.example.service;
 
 import org.example.model.User;
-import org.example.repository.DataBase;
+import org.example.repository.OrderDao;
+import org.example.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
-    private DataBase repository;
+    private UserDao repository;
 
     public void saveUser(User user){
         repository.save(user);
@@ -24,7 +25,9 @@ public class UserService {
     public void getUserById(Long id){
         repository.getUserById(id);
     }
-    public List<User> getUserList(){
-        return List.of(new User(1L,"Хуисос","123","123"));
+
+    public User getUserByChatId(Long id) {
+        return repository.getUserByChatId(id);
     }
+
 }

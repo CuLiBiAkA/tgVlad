@@ -5,9 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DataBase extends CrudRepository<User, Long> {
+public interface UserDao extends CrudRepository<User, Long> {
 
     User getUserById(Long userId);
 
+    User getUserByChatId(Long id);
 }
+
 

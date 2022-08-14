@@ -3,8 +3,6 @@ package org.example.config;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-
 @Getter
 @Component
 public class Command {
@@ -13,7 +11,7 @@ public class Command {
     private  final String REQUEST = "оставить заявку";
     private  final String CALLBACK = "связаться с мастером";
     private  final String MY_REQUEST = "мои заявки";
-    private  final String LEAVE_FEEDBACK = "оставить отзыв";
+    private  final String LEAVE_FEEDBACK = "оценить бота";
     private  final String HOB = "варочная панель";
     private  final String OVEN = "духовой шкаф";
     private  final String WASHING_MACHINE = "стиральная машина";
@@ -28,5 +26,33 @@ public class Command {
     private  final String SEND = "отправить";
     private  final String LAST_METHOD = "ласт";
     private  final String MENU = "вернуться в меню";
+    private  final String CALL = "позвонить мастеру";
+    private  final String CALL_BACK = "ждать звонка от мастера";
+
+
+
+    private  final String NOT_WORK = "не работает";
+    private  final String NOT_HOT = "не греет";
+    private  final String VERY_HOT = "перегревает";
+    private  final String NOT_WORK_CULLER = "не работает конверсия (вентилятор)";
+    private  final String NOT_CLOSE = "не закрывается";
+    private  final String NOT_OPEN = "не открывается";
+    private  final String NOT_PURE = "не наливает";
+    private  final String NOT_DRAIN = "не сливает";
+    private  final String NOT_ROLLING = "не крутит барабан";
+    private  final String NOES = "шумит";
+    private  final String ERROR = "показывает ошибку";
+    private  final String TECH = "подтекает";
+    private  final String TOK = "бьется током";
+    private  final String HANGAR_SMELL = "неприятный запах";
+    private  final String RUN_TO_ROOM = "бегает по квартире";
+    private  final String NOT_DRY = "бегает по квартире";
+    private  final String ADD_TIME = "бегает по квартире";
+
+
+
+
+
+
 
 }
