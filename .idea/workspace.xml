@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.04">
+    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.05">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +150,7 @@
       <workItem from="1660238890195" duration="595000" />
       <workItem from="1660311669180" duration="3156000" />
       <workItem from="1660410006261" duration="20708000" />
-      <workItem from="1660476759554" duration="32697000" />
+      <workItem from="1660476759554" duration="35471000" />
     </task>
     <task id="LOCAL-00001" summary="BotTgVlad v.01">
       <created>1659780484019</created>
@@ -179,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660499423249</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="BotTgVlad v.05">
+      <created>1660527541062</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1660527541062</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,20 +206,21 @@
     <MESSAGE value="BotTgVlad v.02" />
     <MESSAGE value="BotTgVlad v.03" />
     <MESSAGE value="BotTgVlad v.04" />
-    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.04" />
+    <MESSAGE value="BotTgVlad v.05" />
+    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.05" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java</url>
-          <line>422</line>
-          <option name="timeStamp" value="37" />
+          <line>65</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java</url>
-          <line>64</line>
-          <option name="timeStamp" value="38" />
+          <line>42</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

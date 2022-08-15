@@ -18,7 +18,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tg_user")
@@ -34,6 +33,8 @@ public class User {
     @Column(name = "user_tg_id")
     private Long userTgId;
 
+    @Column(name = "addres")
+    private String addres;
 
     @Column(name = "name_user")
     private String number;
@@ -43,4 +44,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
+    @Override
+    public String toString() {
+        return "Ваше имя: " + fistName + "\nВаш адрес: " + addres + "\nВаш номер: " + number ;
+    }
 }

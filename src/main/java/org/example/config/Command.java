@@ -28,6 +28,10 @@ public class Command {
     private  final String MENU = "вернуться в меню";
     private  final String CALL = "позвонить мастеру";
     private  final String CALL_BACK = "ждать звонка от мастера";
+    private  final String MY_CONTACT = "мои контакты";
+    private  final String PHONE = "изменить телефон";
+    private  final String ADDRESS = "изменить адрес";
+    private  final String NAME = "изменить имя";
 
 
 
@@ -48,11 +52,4 @@ public class Command {
     private  final String RUN_TO_ROOM = "бегает по квартире";
     private  final String NOT_DRY = "бегает по квартире";
     private  final String ADD_TIME = "бегает по квартире";
-
-
-
-
-
-
-
 }

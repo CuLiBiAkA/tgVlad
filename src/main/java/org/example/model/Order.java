@@ -29,6 +29,8 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "time")
+    private String time;
     @Column(name = "status")
     private String status;
 
@@ -40,7 +42,6 @@ public class Order {
     private Integer price;
     @Column(name = "flag")
     private Boolean flag;
-
 
 
     @Column(name = "opisanie")

@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,9 @@ public class CreateButton {
 
         var commanda = update.getMessage().getText();
 
+        if(commanda.equals(command.getMY_CONTACT())){
+            return contactMy(update);
+        }
         if (commanda.equals(command.getBACK())) {
             return backMethod(update);
         }
@@ -128,8 +132,29 @@ public class CreateButton {
         list.add("Главное меню");
         list.add(command.getREQUEST());
         list.add(command.getMY_REQUEST());
+        list.add(command.getMY_CONTACT());
         list.add(command.getCALLBACK());
-//        list.add(command.getLEAVE_FEEDBACK());
+        return creteButton(list);
+    }
+
+    public SendMessage contactMy(Update update) {
+        var list = new ArrayList<String>();
+        var user = userService.getUserByChatId(update.getMessage().getChatId());
+        if (user==null){
+            user=new User(null,
+                    update.getMessage().getFrom().getFirstName(),
+                    null,
+                    "пока не знаем",
+                    "пока не знаем",
+                    update.getMessage().getChatId(),
+                    null
+                        );
+        }
+        list.add(user.toString());
+        list.add(command.getNAME());
+        list.add(command.getADDRESS());
+        list.add(command.getPHONE());
+        list.add(command.getMENU());
         return creteButton(list);
     }
 
@@ -160,7 +185,7 @@ public class CreateButton {
 
         while (iterator.hasNext()) {
             var d = iterator.next();
-            if(!d.getFlag()){
+            if (!d.getFlag()) {
                 continue;
             }
             var s = "Заявка №" + d.getId() + " статус - " + d.getStatus();
@@ -424,6 +449,7 @@ public class CreateButton {
         User user = userService.getUserByChatId(update.getMessage().getChatId());
         if (user == null) {
             user = new User();
+            user.setAddres("пока не знаем");
             user.setNumber(update.getMessage().getContact().getPhoneNumber());
             user.setFistName(update.getMessage().getFrom().getFirstName());
             user.setUserTgId(update.getMessage().getContact().getUserId());
@@ -431,14 +457,16 @@ public class CreateButton {
             userService.saveUser(user);
             user = userService.getUserByChatId(update.getMessage().getChatId());
         }
-        var sms = listStep.get(update.getMessage().getChatId()).toString();
-        boolean flag = true;
-        if (listStep.get((update.getMessage().getChatId())).size()<=2)
-        {
-            flag=false;
+        var listRead = listStep.get(update.getMessage().getChatId());
+        var sms = listRead.toString();
+        boolean flag = false;
+        if (listRead.size() >= 3) {
+            flag = true;
         }
+        var data = new Date().toString();
 
         Order order = new Order(null,
+                data,
                 "в обработке",
                 null,
                 0,
