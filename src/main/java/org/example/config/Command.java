@@ -32,9 +32,6 @@ public class Command {
     private  final String PHONE = "изменить телефон";
     private  final String ADDRESS = "изменить адрес";
     private  final String NAME = "изменить имя";
-
-
-
     private  final String NOT_WORK = "не работает";
     private  final String NOT_HOT = "не греет";
     private  final String VERY_HOT = "перегревает";

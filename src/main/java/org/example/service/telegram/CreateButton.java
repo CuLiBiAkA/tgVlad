@@ -60,6 +60,89 @@ public class CreateButton {
         map.put(command.getMENU(), this::mainMenu);
         map.put(command.getCALL(), this::call);
         map.put(command.getCALL_BACK(), this::callBackPhone);
+        map.put(command.getNOT_WORK(), this::notWork);
+        map.put(command.getNOT_HOT(),this::notHot);
+        map.put(command.getVERY_HOT(), this::veryHot);
+        map.put(command.getNOT_WORK_CULLER(), this::notWorkCuller);
+        map.put(command.getNOT_CLOSE(),this::notClouse);
+        map.put(command.getNOT_OPEN(),this::notOpen);
+        map.put(command.getNOT_PURE(), this::notPure);
+        map.put(command.getNOT_DRAIN(),this::notDrain);
+        map.put(command.getNOT_ROLLING(),this::notRouling);
+        map.put(command.getNOES(),this::noes);
+        map.put(command.getERROR(), this::error);
+        map.put(command.getTECH(),this::tech);
+        map.put(command.getTOK(), this::tok);
+        map.put(command.getHANGAR_SMELL(), this::smell);
+        map.put(command.getRUN_TO_ROOM(),this::runToRoom);
+        map.put(command.getNOT_DRY(),this::notDry);
+        map.put(command.getADD_TIME(),this::addTime);
+    }
+
+
+    private SendMessage addTime() {
+        return lastMethod();
+    }
+    private SendMessage notDry() {
+        return lastMethod();
+    }
+    private SendMessage runToRoom() {
+        return lastMethod();
+    }
+    private SendMessage smell() {
+        return lastMethod();
+    }
+
+    private SendMessage tok() {
+        return lastMethod();
+    }
+
+    private SendMessage tech() {
+        return lastMethod();
+    }
+
+    private SendMessage error() {
+        return lastMethod();
+    }
+
+    private SendMessage noes() {
+        return lastMethod();
+    }
+
+    private SendMessage notDrain() {
+        return lastMethod();
+    }
+
+    private SendMessage notRouling() {
+        return lastMethod();
+    }
+
+    private SendMessage notPure() {
+       return lastMethod();
+    }
+
+    private SendMessage notOpen() {
+        return lastMethod();
+    }
+
+    private SendMessage notClouse() {
+        return lastMethod();
+    }
+
+    private SendMessage notWorkCuller() {
+        return lastMethod();
+    }
+
+    private SendMessage veryHot() {
+        return lastMethod();
+    }
+
+    private SendMessage notHot() {
+        return lastMethod();
+    }
+
+    private SendMessage notWork() {
+        return lastMethod();
     }
 
     public SendMessage inCommand(Update update) {
@@ -419,10 +502,13 @@ public class CreateButton {
                 !listStep.get(update.getMessage().getChatId()).equals(command.getMENU())) {
 
             listStep.get(update.getMessage().getChatId()).removeLast();
-
-            var lastCommandLocal = listStep.get(update.getMessage().getChatId()).getLast();
-
-            return map.get(lastCommandLocal).get();
+            try {
+                var lastCommandLocal = listStep.get(update.getMessage().getChatId()).getLast();
+                return map.get(lastCommandLocal).get();
+            }
+            catch (Exception ignored){
+               return mainMenu();
+            }
         }
         return null;
     }
