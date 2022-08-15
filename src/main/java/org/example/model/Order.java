@@ -38,6 +38,10 @@ public class Order {
 
     @Column(name = "price")
     private Integer price;
+    @Column(name = "flag")
+    private Boolean flag;
+
+
 
     @Column(name = "opisanie")
     private String opisanie;

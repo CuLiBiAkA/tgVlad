@@ -59,7 +59,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     return;
                 }
                 Message message = update.getMessage();
-                if (!message.hasText()) {
+                if (!message.hasText() && !message.hasContact()) {
                     deleteMessage(message);
                     return;
                 }
@@ -102,7 +102,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             mapForIncrement.put(message.getChatId(), messageId);
         }
     }
-
 
     @SneakyThrows
     public void sendMessage(BotApiMethod<? extends Serializable> method) {

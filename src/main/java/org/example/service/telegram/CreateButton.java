@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayDeque;
@@ -37,9 +38,6 @@ public class CreateButton {
 
     private final Map<Long, ArrayDeque<String>> listStep = new ConcurrentHashMap<>();
 
-
-    private volatile int initFistMap = 0;
-
     public void createMethodMap() {
 //        map.put(command.getBACK().intern(), this::backMethod);
         map.put(command.getREQUEST(), this::sendRequest);
@@ -64,8 +62,16 @@ public class CreateButton {
     }
 
     public SendMessage inCommand(Update update) {
-        if (initFistMap == 0) {
-            createMethodMap();
+        map.clear();
+        createMethodMap();
+        if (!update.getMessage().hasText()) {
+            if (listStep.get(update.getMessage().getChatId()).getLast().equals(command.getCALLBACK())) {
+                dbStepAdd(update);
+                return callBackPhone();
+            } else {
+                dbStepAdd(update);
+                return send();
+            }
         }
 
         var commanda = update.getMessage().getText();
@@ -76,7 +82,6 @@ public class CreateButton {
         if (commanda.equals(command.getMY_REQUEST())) {
             return myRequest(update);
         }
-
         if (map.containsKey(commanda)) {
             listStepAdd(update);
             return map.get(commanda).get();
@@ -85,9 +90,9 @@ public class CreateButton {
         }
     }
 
-
     @SneakyThrows
     static public SendMessage creteButton(ArrayList<String> s) {
+
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         // Создаем клавиатуру
@@ -124,7 +129,7 @@ public class CreateButton {
         list.add(command.getREQUEST());
         list.add(command.getMY_REQUEST());
         list.add(command.getCALLBACK());
-        list.add(command.getLEAVE_FEEDBACK());
+//        list.add(command.getLEAVE_FEEDBACK());
         return creteButton(list);
     }
 
@@ -155,8 +160,12 @@ public class CreateButton {
 
         while (iterator.hasNext()) {
             var d = iterator.next();
-
-            stringMassive.add("Заявка №" + d.getId());
+            if(!d.getFlag()){
+                continue;
+            }
+            var s = "Заявка №" + d.getId() + " статус - " + d.getStatus();
+            stringMassive.add("Заявка №" + d.getId() + " статус - " + d.getStatus());
+//            map.put(s,this::mainMenu);
         }
         stringMassive.add(command.getMENU());
 
@@ -170,7 +179,38 @@ public class CreateButton {
         list.add(command.getCALL());
         list.add(command.getCALL_BACK());
         list.add(command.getBACK());
-        return creteButton(list);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        // Создаем клавиатуру
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        // Создаем список строк клавиатуры
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardButton keyboardButton = new KeyboardButton();
+        keyboardButton.setRequestContact(true);
+        keyboardButton.setText(list.get(2));
+        keyboardFirstRow.add(keyboardButton);
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        KeyboardRow keyboardThreeRow = new KeyboardRow();
+        keyboardSecondRow.add(list.get(1));
+        keyboardThreeRow.add(list.get(3));
+        keyboard.add(keyboardSecondRow);
+        keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardThreeRow);
+        // и устанавливаем этот список нашей клавиатуре
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        // какой-то маркер
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+        // дособираем ответочку
+        sendMessage.setText(list.get(0));
+        //отправляем сообщение
+        return sendMessage;
     }
 
     @SneakyThrows
@@ -299,16 +339,48 @@ public class CreateButton {
     @SneakyThrows
     public SendMessage lastMethod() {
         var list = new ArrayList<String>();
-        list.add("Отправить заявку?");
+        list.add("Отправить заявку? \n \n при нажатии кнопки отправить мы попросим ваш номер");
         list.add(command.getSEND());
         list.add(command.getBACK());
-        return creteButton(list);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        // Создаем клавиатуру
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        // Создаем список строк клавиатуры
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardButton keyboardButton = new KeyboardButton();
+//
+        keyboardButton.setRequestContact(true);
+//        keyboardButton.getRequestContact();
+
+        keyboardButton.setText(list.get(1));
+
+        keyboardFirstRow.add(keyboardButton);
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        keyboardSecondRow.add(list.get(2));
+        keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardSecondRow);
+        // и устанавливаем этот список нашей клавиатуре
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        // какой-то маркер
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+        // дособираем ответочку
+        sendMessage.setText(list.get(0));
+        //отправляем сообщение
+        return sendMessage;
     }
 
     @SneakyThrows
     public SendMessage send() {
         var list = new ArrayList<String>();
-        list.add("Ваша заявка принята, в истории заявок можно уточнить ее статус");
+        list.add("Ваша заявка принята, \nмастер свяжется с вами для подтверждения заявки. \nВ пункте <<мои заявки>> можно уточнить ее статус");
         list.add(command.getMY_REQUEST());
         list.add(command.getMENU());
         return creteButton(list);
@@ -352,20 +424,27 @@ public class CreateButton {
         User user = userService.getUserByChatId(update.getMessage().getChatId());
         if (user == null) {
             user = new User();
-//            user.setNumber(update.getMessage().getContact().getPhoneNumber());
-//            user.setFistName(update.getMessage().getContact().getFirstName());
-//            user.setUserTgId(update.getMessage().getContact().getUserId());
+            user.setNumber(update.getMessage().getContact().getPhoneNumber());
+            user.setFistName(update.getMessage().getFrom().getFirstName());
+            user.setUserTgId(update.getMessage().getContact().getUserId());
             user.setChatId(update.getMessage().getChatId());
             userService.saveUser(user);
             user = userService.getUserByChatId(update.getMessage().getChatId());
         }
+        var sms = listStep.get(update.getMessage().getChatId()).toString();
+        boolean flag = true;
+        if (listStep.get((update.getMessage().getChatId())).size()<=2)
+        {
+            flag=false;
+        }
+
         Order order = new Order(null,
                 "в обработке",
-                "Пока не заполнен",
+                null,
                 0,
-                listStep.get(update.getMessage().getChatId()).toString(),
+                flag,
+                sms,
                 user);
-
         orderService.saveOrder(order);
     }
 }
