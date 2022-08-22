@@ -42,6 +42,9 @@ public class User {
     @Column(name = "chat_id")
     private Long chatId;
 
+    @Column(name = "admin_flag")
+    private Boolean adminFlag;
+
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 

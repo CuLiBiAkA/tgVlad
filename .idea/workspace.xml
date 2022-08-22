@@ -4,12 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.05">
+    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.07">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButtonRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateButtonAll.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/interfaces/Panel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +29,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -55,27 +65,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/1111/IdeaProjects/cmbakeshop_notifications_service",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "spring.configuration.checksum": "b004e96dd9e3003fbc43bd1dedfd4e10"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/1111/IdeaProjects/cmbakeshop_notifications_service&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;b004e96dd9e3003fbc43bd1dedfd4e10&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "h2",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;h2&quot;,
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -150,7 +160,15 @@
       <workItem from="1660238890195" duration="595000" />
       <workItem from="1660311669180" duration="3156000" />
       <workItem from="1660410006261" duration="20708000" />
-      <workItem from="1660476759554" duration="35471000" />
+      <workItem from="1660476759554" duration="47325000" />
+      <workItem from="1660590799349" duration="856000" />
+      <workItem from="1660599050333" duration="297000" />
+      <workItem from="1660763817948" duration="858000" />
+      <workItem from="1660945734332" duration="5426000" />
+      <workItem from="1660993910939" duration="6503000" />
+      <workItem from="1661032637430" duration="5018000" />
+      <workItem from="1661099425025" duration="1161000" />
+      <workItem from="1661112800711" duration="11916000" />
     </task>
     <task id="LOCAL-00001" summary="BotTgVlad v.01">
       <created>1659780484019</created>
@@ -187,7 +205,21 @@
       <option name="project" value="LOCAL" />
       <updated>1660527541062</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="BotTgVlad v.06">
+      <created>1660530326605</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1660530326605</updated>
+    </task>
+    <task id="LOCAL-00007" summary="BotTgVlad v.07">
+      <created>1660571221421</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1660571221421</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -207,20 +239,17 @@
     <MESSAGE value="BotTgVlad v.03" />
     <MESSAGE value="BotTgVlad v.04" />
     <MESSAGE value="BotTgVlad v.05" />
-    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.05" />
+    <MESSAGE value="BotTgVlad v.06" />
+    <MESSAGE value="BotTgVlad v.07" />
+    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.07" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java</url>
-          <line>65</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="41" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java</url>
+          <line>139</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

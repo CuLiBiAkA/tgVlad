@@ -1,12 +1,9 @@
 package org.example.service.telegram;
 
-import javassist.bytecode.analysis.Executor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.glassfish.grizzly.threadpool.FixedThreadPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.task.support.ExecutorServiceAdapter;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -16,13 +13,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Slf4j
 @Service
@@ -33,8 +27,11 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Value("${bot.sandbox.token}")
     private String token;
 
+//    @Autowired
+//    private CreateButton button;
+
     @Autowired
-    private CreateButton button;
+    private CreateButtonRequest buttonRequest;
 
     private final Map<Long, Integer> mapForIncrement = new ConcurrentHashMap<>();
 
@@ -52,23 +49,26 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @SneakyThrows
     @Override
-    public void onUpdateReceived(Update update) {
+    public void onUpdateReceived(Update update){
+//        System.out.println(update);
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         executorService.execute(() -> {
                 if (!update.hasMessage()) {
                     return;
                 }
                 Message message = update.getMessage();
-                if (!message.hasText() && !message.hasContact()) {
+                if (!message.hasText() && !message.hasContact() && !message.hasLocation()) {
                     deleteMessage(message);
                     return;
                 }
 
-                var sendMessagePerm = button.inCommand(update);
+//                var requestMessesWithButton = button.inCommand(update);
+                org.telegram.telegrambots.meta.api.methods.send.SendMessage requestMessesWithButton = buttonRequest.inCommand(update);
 
-                if (sendMessagePerm != null) {
-                    sendMessagePerm.setChatId(message.getChatId());
-                    sendMessage(sendMessagePerm);
+
+                if (requestMessesWithButton != null) {
+                    requestMessesWithButton.setChatId(message.getChatId());
+                    sendMessage(requestMessesWithButton);
                     deleteMessage(message);
                     deleteMessageBot(message);
                 } else {
@@ -78,7 +78,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 //        executorService.shutdown();
     }
 
-    public void deleteMessageBot(Message message) {
+    public void deleteMessageBot(Message message){
         if (!mapForLastMessage.containsKey(message.getChatId())) {
             mapForLastMessage.put(message.getChatId(), message.getMessageId());
             mapForIncrement.put(message.getChatId(), message.getMessageId());
@@ -89,7 +89,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         while (!mapForIncrement.get(message.getChatId()).equals(mapForLastMessage.get(message.getChatId()))) {
             iter++;
 //            System.out.println("пытаюсь удалить сообщение бота итерация № " + iter);
-            var messageId = mapForIncrement.get(message.getChatId());
+            Integer messageId = mapForIncrement.get(message.getChatId());
             messageId++;
             try {
                 execute(DeleteMessage
