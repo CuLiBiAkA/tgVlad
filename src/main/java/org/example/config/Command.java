@@ -52,4 +52,22 @@ public class Command {
       final String CHANGE_NAME = "изменить имя";
       final String CHANGE_ADDRESS = "изменить адрес";
       final String CHANGE_PHONE = "изменить телефон";
+      final String REDACT = "редактировать";
+      final String WRITE_MY_DATA = "ввести данные в ручную";
+      final String PROCEED = "оставить заявку используя эти данные";
+      final String PROCEED_NO = "редактировать данные";
+      final String CONTACT_SEND = "поделиться данными из ТГ";
+      final String GEOLOCATION = "поделиться данными геолокации";
+
+      final String refactorName = "изменить имя";
+      final String refactorPhone = "изменить номер";
+      final String refactorAddress = "изменить адрес";
+
+
+
+
+
+
+
+
 }

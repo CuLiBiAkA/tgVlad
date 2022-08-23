@@ -4,21 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.07">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButtonRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateButtonAll.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/interfaces/Panel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.08">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateButtonContactAndLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateButtonEdit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/Steep.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repository/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repository/OrderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/CreateButton.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateButtonAll.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateButtonAll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,6 +97,7 @@
       <recent name="C:\Users\1111\IdeaProjects\tgbotforVlad\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example.service.telegram.V2.batton" />
       <recent name="org.example.service.tg" />
     </key>
   </component>
@@ -168,7 +169,9 @@
       <workItem from="1660993910939" duration="6503000" />
       <workItem from="1661032637430" duration="5018000" />
       <workItem from="1661099425025" duration="1161000" />
-      <workItem from="1661112800711" duration="11916000" />
+      <workItem from="1661112800711" duration="12225000" />
+      <workItem from="1661161829725" duration="12308000" />
+      <workItem from="1661200349342" duration="23339000" />
     </task>
     <task id="LOCAL-00001" summary="BotTgVlad v.01">
       <created>1659780484019</created>
@@ -219,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660571221421</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="BotTgVlad v.08">
+      <created>1661130315905</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1661130315905</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -241,17 +251,7 @@
     <MESSAGE value="BotTgVlad v.05" />
     <MESSAGE value="BotTgVlad v.06" />
     <MESSAGE value="BotTgVlad v.07" />
-    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.07" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java</url>
-          <line>139</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="BotTgVlad v.08" />
+    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.08" />
   </component>
 </project>

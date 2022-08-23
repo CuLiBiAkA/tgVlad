@@ -19,4 +19,8 @@ public class OrderService {
     public void saveOrder(Order order){
         repository.save(order);
     }
+
+    public Order getOrderById(Long id){
+       return repository.getOrderById(id);
+    }
 }

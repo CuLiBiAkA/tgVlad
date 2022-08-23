@@ -1,5 +1,6 @@
 package org.example.model;
 
+import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Timestamp
     @Column(name = "time")
     private String time;
     @Column(name = "status")

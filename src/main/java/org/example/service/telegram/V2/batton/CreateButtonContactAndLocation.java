@@ -4,42 +4,59 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Component
-public class CreateButtonAll {
+public class CreateButtonContactAndLocation {
+
     @SneakyThrows
     static public SendMessage creteButton(ArrayList<String> s) {
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        // Создаем клавиатуру
+
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
-//        replyKeyboardMarkup.setSelective(true);
-//        replyKeyboardMarkup.setResizeKeyboard(true); // размер кнопок
         replyKeyboardMarkup.setOneTimeKeyboard(false); // сворачивание клавы после действия
 
-        // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         int i = 0;
-        while (i + 1 < s.size()) {
+
+        KeyboardRow keyboardFirstRow1 = new KeyboardRow();
+        KeyboardButton keyboardButton = new KeyboardButton();
+        keyboardButton.setRequestContact(true);
+        keyboardButton.setText(s.get(1));
+        keyboardFirstRow1.add(keyboardButton);
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        KeyboardButton keyboardButton1 = new KeyboardButton();
+        keyboardButton1.setRequestLocation(true);
+        keyboardButton1.setText(s.get(2));
+        keyboardSecondRow.add(keyboardButton1);
+        keyboard.add(keyboardFirstRow1);
+        keyboard.add(keyboardSecondRow);
+
+
+
+        while (i + 3 < s.size()) {
             KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(s.get(1 + i));
+            keyboardFirstRow.add(s.get(3 + i));
             keyboard.add(keyboardFirstRow);
             i++;
         }
-        // и устанавливаем этот список нашей клавиатуре
+
+
         replyKeyboardMarkup.setKeyboard(keyboard);
-        // какой-то маркер
-//        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        // дособираем ответочку
         sendMessage.disableNotification();
         sendMessage.setText(s.get(0));
         return sendMessage;
     }
+
+
 }

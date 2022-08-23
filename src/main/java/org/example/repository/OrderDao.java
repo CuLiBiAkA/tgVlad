@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderDao extends CrudRepository<Order, Long> {
+    Order getOrderById(Long id);
 }

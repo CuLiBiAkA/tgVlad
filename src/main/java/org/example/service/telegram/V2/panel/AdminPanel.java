@@ -17,8 +17,8 @@ public class AdminPanel implements Panel {
     private OrderService orderService;
 
 
+    public SendMessage inCommand(Update update) {
 
-    public SendMessage inCommand(Update update){
         return null;
     }
 

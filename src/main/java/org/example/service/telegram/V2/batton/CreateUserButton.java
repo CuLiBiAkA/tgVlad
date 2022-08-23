@@ -1,5 +1,6 @@
 package org.example.service.telegram.V2.batton;
 
+import javafx.beans.binding.StringBinding;
 import lombok.SneakyThrows;
 import org.example.config.Command;
 import org.example.config.ConfigBean;
@@ -7,23 +8,28 @@ import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
 import org.example.service.UserService;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class CreateUserButton {
@@ -39,9 +45,16 @@ public class CreateUserButton {
     @Autowired
     private OrderService orderService;
 
+
+    @Autowired
+    private CreateButtonContactAndLocation createButtonContactAndLocation;
+
+    @Autowired
+    private Steep steep;
+
     @PostConstruct
     public void createMethodMap() {
-       configBean.map().put(command.getBACK().intern(), this::backMethod);
+        configBean.map().put(command.getBACK().intern(), this::backMethod);
         configBean.map().put(command.getREQUEST(), this::sendRequest);
         configBean.map().put(command.getSTART(), this::mainMenu);
         configBean.map().put(command.getCALLBACK(), this::callBack);
@@ -61,25 +74,134 @@ public class CreateUserButton {
         configBean.map().put(command.getMENU(), this::mainMenu);
         configBean.map().put(command.getCALL(), this::call);
         configBean.map().put(command.getCALL_BACK(), this::callBackPhone);
-//        map.put(command.getNOT_WORK(), this::notWork);
-//        map.put(command.getNOT_HOT(), this::notHot);
-//        map.put(command.getVERY_HOT(), this::veryHot);
-//        map.put(command.getNOT_WORK_CULLER(), this::notWorkCuller);
-//        map.put(command.getNOT_CLOSE(), this::notClouse);
-//        map.put(command.getNOT_OPEN(), this::notOpen);
-//        map.put(command.getNOT_PURE(), this::notPure);
-//        map.put(command.getNOT_DRAIN(), this::notDrain);
-//        map.put(command.getNOT_ROLLING(), this::notRouling);
-//        map.put(command.getNOES(), this::noes);
-//        map.put(command.getERROR(), this::error);
-//        map.put(command.getTECH(), this::tech);
-//        map.put(command.getTOK(), this::tok);
-//        map.put(command.getHANGAR_SMELL(), this::smell);
-//        map.put(command.getRUN_TO_ROOM(), this::runToRoom);
-//        map.put(command.getNOT_DRY(), this::notDry);
-//        map.put(command.getADD_TIME(), this::addTime);
+        configBean.map().put(command.getNOT_WORK(), this::notWork);
+        configBean.map().put(command.getNOT_HOT(), this::notHot);
+        configBean.map().put(command.getVERY_HOT(), this::veryHot);
+        configBean.map().put(command.getNOT_WORK_CULLER(), this::notWorkCuller);
+        configBean.map().put(command.getNOT_CLOSE(), this::notClouse);
+        configBean.map().put(command.getNOT_OPEN(), this::notOpen);
+        configBean.map().put(command.getNOT_PURE(), this::notPure);
+        configBean.map().put(command.getNOT_DRAIN(), this::notDrain);
+        configBean.map().put(command.getNOT_ROLLING(), this::notRouling);
+        configBean.map().put(command.getNOES(), this::noes);
+        configBean.map().put(command.getERROR(), this::error);
+        configBean.map().put(command.getTECH(), this::tech);
+        configBean.map().put(command.getTOK(), this::tok);
+        configBean.map().put(command.getHANGAR_SMELL(), this::smell);
+        configBean.map().put(command.getRUN_TO_ROOM(), this::runToRoom);
+        configBean.map().put(command.getNOT_DRY(), this::notDry);
+        configBean.map().put(command.getADD_TIME(), this::addTime);
+        configBean.map().put(command.getMY_CONTACT(), this::contactMy);
+        configBean.map().put(command.getCONTACT_SEND(), this::contactSend);
+        configBean.map().put(command.getWRITE_MY_DATA(), this::writeMyData);
+        configBean.map().put(command.getREDACT(), this::writeMyData);
+        configBean.map().put(command.getPROCEED_NO(), this::writeMyData);
+        configBean.map().put(command.getRefactorName(), this::refactorName);
+        configBean.map().put(command.getRefactorPhone(), this::refactorPhone);
+        configBean.map().put(command.getRefactorAddress(), this::refactorAddress);
+        configBean.map().put(command.getPROCEED(), this::whatDeath);
+        configBean.map().put("Заявка №*", this::myRequestTwo);
     }
 
+    private SendMessage refactorAddress(Update update) {
+        var list = new ArrayList<String>();
+        list.add("Введите адрес");
+        return CreateButtonEdit.creteButton(list);
+    }
+
+    private SendMessage refactorPhone(Update update) {
+        var list = new ArrayList<String>();
+        list.add("Введите номер");
+        return CreateButtonEdit.creteButton(list);
+    }
+
+    private SendMessage refactorName(Update update) {
+        var list = new ArrayList<String>();
+        list.add("Введите имя");
+        return CreateButtonEdit.creteButton(list);
+    }
+
+
+    private SendMessage contactSend(Update update) {
+        userService.saveUser(new User(null,
+                update.getMessage().getContact().getFirstName(),
+                update.getMessage().getContact().getUserId(),
+                null,
+                update.getMessage().getContact().getPhoneNumber(),
+                update.getMessage().getChatId(),
+                false,
+                null));
+        String last = configBean.listStep().get(update.getMessage().getChatId()).getLast();
+        return configBean.map().get(last).apply(update);
+    }
+
+    private SendMessage addTime(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notDry(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage runToRoom(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage smell(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage tok(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage tech(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage error(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage noes(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notRouling(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notDrain(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notPure(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notOpen(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notClouse(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notWorkCuller(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage veryHot(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notHot(Update update) {
+        return lastMethod(update);
+    }
+
+    private SendMessage notWork(Update update) {
+        return lastMethod(update);
+    }
 
     @SneakyThrows
     public SendMessage mainMenu(Update update) {
@@ -90,17 +212,65 @@ public class CreateUserButton {
         list.add(command.getMY_CONTACT());
         list.add(command.getCALLBACK());
         return CreateButtonAll.creteButton(list);
-    }
+    } // меню готово
 
     public SendMessage contactMy(Update update) {
         var list = new ArrayList<String>();
-        list.add("Ваши контакты");
-        return CreateButtonAll.creteButton(list);
 
-    }
+        User userByChatId = userService.getUserByChatId(update.getMessage().getChatId());
+
+        if (userByChatId == null) {
+            userByChatId = new User();
+            userByChatId.setAddres("неизвестен");
+            userByChatId.setNumber("неизвестен");
+            userByChatId.setFistName("неизвестно");
+        }
+
+        list.add("Ваши контакты: \n" + userByChatId.toString());
+        list.add(command.getREDACT());
+        list.add(command.getMENU());
+
+        return CreateButtonAll.creteButton(list);
+    } // мои контакты (не готово редактирование)
+
+    public SendMessage sendRequest(Update update) {
+        var list = new ArrayList<String>();
+        User userByChatId = userService.getUserByChatId(update.getMessage().getChatId());
+        if (userByChatId == null) {
+            list.add("Пожалуйста, добавьте ваши данные");
+            list.add(command.getCONTACT_SEND());
+            list.add(command.getGEOLOCATION());
+            list.add(command.getWRITE_MY_DATA());
+            list.add(command.getBACK());
+            return CreateButtonContactAndLocation.creteButton(list);
+        }
+        if (userByChatId.getNumber() != null && userByChatId.getAddres() != null && userByChatId.getFistName() != null) {
+            list.add("Ваши данные: \n" + userByChatId.toString());
+            list.add(command.getPROCEED()); // продолжать с данными которые имеем
+            list.add(command.getPROCEED_NO()); // ввести новые данные
+            list.add(command.getBACK());
+            return CreateButtonAll.creteButton(list);
+        }
+        list.add("Ваши данные: \n" + userByChatId.toString() + "\n!!! необходимо ввести все данные !!!");
+        list.add(command.getCONTACT_SEND());
+        list.add(command.getGEOLOCATION());
+        list.add(command.getWRITE_MY_DATA());
+        list.add(command.getBACK());
+        return CreateButtonContactAndLocation.creteButton(list);
+    } // оставить заявку
+
+    public SendMessage writeMyData(Update update) {
+        var list = new ArrayList<String>();
+        list.add("Вы можете изменить ваши данные");
+        list.add(command.getRefactorName());
+        list.add(command.getRefactorAddress());
+        list.add(command.getRefactorPhone());
+        list.add(command.getBACK());
+        return CreateButtonAll.creteButton(list);
+    } //
 
     @SneakyThrows
-    public SendMessage sendRequest(Update update) {
+    public SendMessage whatDeath(Update update) {
         var list = new ArrayList<String>();
         list.add("Оставьте заявку, для этого вам нужно выбрать, что сломалось?");
         list.add(command.getHOB());
@@ -109,10 +279,10 @@ public class CreateUserButton {
         list.add(command.getDRYER());
         list.add(command.getBACK());
         return CreateButtonAll.creteButton(list);
-    }
+    } // оставить заявку
 
     @SneakyThrows
-    public SendMessage myRequest(Update update) {
+    public SendMessage myRequest(Update update) { // список заявок
         var user = userService.getUserByChatId(update.getMessage().getChatId());
         List<Order> list = new ArrayList<>();
         if (user != null) {
@@ -128,13 +298,33 @@ public class CreateUserButton {
             if (!d.getFlag()) {
                 continue;
             }
-            var s = "Заявка №" + d.getId() + " статус - " + d.getStatus();
-            stringMassive.add("Заявка №" + d.getId() + " статус - " + d.getStatus());
+            stringMassive.add("Заявка №" + d.getId() + "\n" + "статус - " + d.getStatus());
         }
         stringMassive.add(command.getMENU());
 
         return CreateButtonAll.creteButton(stringMassive);
+    } //
+
+    public SendMessage myRequestTwo(Update update) {
+        Pattern compile = Pattern.compile("^Заявка №(.*)\\n+.*", Pattern.MULTILINE);
+        Matcher matcher = compile.matcher(update.getMessage().getText());
+        long l = 0L;
+        if (matcher.find()) {
+            l = Long.parseLong(matcher.group(1));
+        }
+        Order d = orderService.getOrderById(l);
+        var stringMassive = new ArrayList<String>();
+        var s = "Заявка №" + d.getId() + "\n" +
+                "статус - " + d.getStatus() + "\n" +
+                "цена за работу " + d.getPrice() + " руб" + "\n" +
+                "описание ( " + d.getOpisanie() + " )" + "\n" +
+                "дата заявки " + d.getTime();
+
+        stringMassive.add(s);
+        stringMassive.add(command.getBACK());
+        return CreateButtonAll.creteButton(stringMassive);
     }
+
 
     @SneakyThrows
     public SendMessage callBack(Update update) {
@@ -143,38 +333,7 @@ public class CreateUserButton {
         list.add(command.getCALL());
         list.add(command.getCALL_BACK());
         list.add(command.getBACK());
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
-        // Создаем клавиатуру
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        // Создаем список строк клавиатуры
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        KeyboardButton keyboardButton = new KeyboardButton();
-        keyboardButton.setRequestContact(true);
-        keyboardButton.setText(list.get(2));
-        keyboardFirstRow.add(keyboardButton);
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        KeyboardRow keyboardThreeRow = new KeyboardRow();
-        keyboardSecondRow.add(list.get(1));
-        keyboardThreeRow.add(list.get(3));
-        keyboard.add(keyboardSecondRow);
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardThreeRow);
-        // и устанавливаем этот список нашей клавиатуре
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        // какой-то маркер
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        // дособираем ответочку
-        sendMessage.setText(list.get(0));
-        //отправляем сообщение
-        return sendMessage;
+        return CreateButtonAll.creteButton(list);
     }
 
     @SneakyThrows
@@ -303,88 +462,38 @@ public class CreateUserButton {
     @SneakyThrows
     public SendMessage lastMethod(Update update) {
         var list = new ArrayList<String>();
-        list.add("Отправить заявку? \n" +
-                " \n при нажатии кнопки отправить мы попросим ваш номер");
+        List<String> collect = new ArrayList<>(configBean.listStep().get(update.getMessage().getChatId()));
+        Collections.reverse(collect);
+        String s = collect.stream().limit(2).reduce((s1, s2) -> s2 + " - " + s1).orElse("Ошибка");
+
+        list.add("Отправить заявку? \n" + s);
         list.add(command.getSEND());
         list.add(command.getBACK());
 
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
-        // Создаем клавиатуру
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        // Создаем список строк клавиатуры
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        KeyboardButton keyboardButton = new KeyboardButton();
-//
-        keyboardButton.setRequestContact(true);
-//        keyboardButton.getRequestContact();
-
-        keyboardButton.setText(list.get(1));
-
-        keyboardFirstRow.add(keyboardButton);
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add(list.get(2));
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        // и устанавливаем этот список нашей клавиатуре
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        // какой-то маркер
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        // дособираем ответочку
-        sendMessage.setText(list.get(0));
         //отправляем сообщение
-        return sendMessage;
+        return CreateButtonAll.creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage send(Update update) {
         var list = new ArrayList<String>();
-        list.add("Ваша заявка принята, \nмастер свяжется с вами для подтверждения заявки. \nВ пункте <<мои заявки>> можно уточнить ее статус");
+        list.add("Ваша заявка принята, \nмастер свяжется с вами для подтверждения заявки. \nВ пункте <мои заявки> можно уточнить ее статус");
         list.add(command.getMY_REQUEST());
         list.add(command.getMENU());
+
+        List<String> collect = new ArrayList<>(configBean.listStep().get(update.getMessage().getChatId()));
+        Collections.reverse(collect);
+        String s = collect.stream().skip(1).limit(2).reduce((s1, s2) -> s2 + " - " + s1).orElse("Ошибка");
+
+        orderService.saveOrder(new Order(null, null, "в обработке", null, 0, true, s, userService.getUserByChatId(update.getMessage().getChatId())));
         return CreateButtonAll.creteButton(list);
     }
 
     @SneakyThrows
     public SendMessage backMethod(Update update) {
-        if (configBean.listStep().containsKey(update.getMessage().getChatId()) &&
-                !configBean.listStep().get(update.getMessage().getChatId()).isEmpty() &&
-                !configBean.listStep().get(update.getMessage().getChatId()).equals(command.getSTART()) &&
-                !configBean.listStep().get(update.getMessage().getChatId()).equals(command.getMENU())) {
-
-            configBean.listStep().get(update.getMessage().getChatId()).removeLast();
-            try {
-                var lastCommandLocal = configBean.listStep().get(update.getMessage().getChatId()).getLast();
-                return configBean.map().get(lastCommandLocal).apply(update);
-            } catch (Exception ignored) {
-                return mainMenu(update);
-            }
-        }
-        return null;
+        return steep.backMethod(update);
     }
 
-    @SneakyThrows
-    public void listStepAdd(Update update) {
-        var commandLocal = update.getMessage().getText();
-        var chatIdLocal = update.getMessage().getChatId();
-
-        if (!configBean.listStep().containsKey(chatIdLocal)) {
-            configBean.listStep().put(chatIdLocal, new ArrayDeque<>());
-        }
-        if (commandLocal.equals(command.getSTART()) || commandLocal.equals(command.getMENU())) {
-            configBean.listStep().get(chatIdLocal).clear();
-        }
-        configBean.listStep().get(chatIdLocal).add(commandLocal);
-        if (commandLocal.equals(command.getSEND())) {
-            dbStepAdd(update);
-        }
-    }
 
     @SneakyThrows
     public void dbStepAdd(Update update) {
@@ -418,7 +527,4 @@ public class CreateUserButton {
         orderService.saveOrder(order);
     }
 
-    public SendMessage start(Update update) {
-       return configBean.map().get(update.getMessage().getText()).apply(update);
-    }
 }
