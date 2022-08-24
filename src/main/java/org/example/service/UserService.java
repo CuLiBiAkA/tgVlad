@@ -1,7 +1,6 @@
 package org.example.service;
 
 import org.example.model.User;
-import org.example.repository.OrderDao;
 import org.example.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +29,7 @@ public class UserService {
         return repository.getUserByChatId(id);
     }
 
+    public Iterable<User> getAllUser() {
+        return repository.findAll();
+    }
 }

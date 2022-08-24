@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
@@ -46,7 +45,7 @@ public class UserPanel implements Panel {
         }
 
         if (update.getMessage().hasLocation()) {
-            return null;
+            return configBean.map().get(command.getGEOLOCATION()).apply(update);
         }
 
         if (update.getMessage().hasText() && Pattern.matches("^Заявка №\\d*\\n+.*",update.getMessage().getText())) {

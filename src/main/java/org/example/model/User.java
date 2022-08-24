@@ -36,7 +36,7 @@ public class User {
     @Column(name = "addres")
     private String addres;
 
-    @Column(name = "name_user")
+    @Column(name = "number")
     private String number;
 
     @Column(name = "chat_id")

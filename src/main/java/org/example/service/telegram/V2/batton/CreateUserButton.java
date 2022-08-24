@@ -1,35 +1,37 @@
 package org.example.service.telegram.V2.batton;
 
-import javafx.beans.binding.StringBinding;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.example.config.Command;
 import org.example.config.ConfigBean;
+import org.example.dto.Data;
+import org.example.dto.Dto;
+import org.example.dto.DtoGeolocation;
 import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
 import org.example.service.UserService;
-import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class CreateUserButton {
@@ -44,10 +46,6 @@ public class CreateUserButton {
     private UserService userService;
     @Autowired
     private OrderService orderService;
-
-
-    @Autowired
-    private CreateButtonContactAndLocation createButtonContactAndLocation;
 
     @Autowired
     private Steep steep;
@@ -100,7 +98,56 @@ public class CreateUserButton {
         configBean.map().put(command.getRefactorPhone(), this::refactorPhone);
         configBean.map().put(command.getRefactorAddress(), this::refactorAddress);
         configBean.map().put(command.getPROCEED(), this::whatDeath);
+        configBean.map().put(command.getGEOLOCATION(), this::geolocation);
         configBean.map().put("Заявка №*", this::myRequestTwo);
+    }
+
+    private SendMessage geolocation(Update update) {
+
+        User userByChatId = userService.getUserByChatId(update.getMessage().getChatId());
+        if (userByChatId == null) {
+            userByChatId = new User(null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    update.getMessage().getChatId(),
+                    false,
+                    null);
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setBearerAuth("");
+        DtoGeolocation dtoGeolocation = new DtoGeolocation();
+        dtoGeolocation.setCount("1");
+        dtoGeolocation.setLat(update.getMessage().getLocation().getLatitude().toString());
+        dtoGeolocation.setLon(update.getMessage().getLocation().getLongitude().toString());
+        dtoGeolocation.setRadius_meters("50");
+        HttpEntity<?> httpEntity = new HttpEntity<>(dtoGeolocation, httpHeaders);
+        ResponseEntity<String> response = restTemplate.exchange("https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address",
+                HttpMethod.POST,
+                httpEntity,
+                String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Dto dto = objectMapper.readValue(response.getBody(), Dto.class);
+            Data data = dto.suggestions.get(0).data;
+            String s = data.cityWithType + ", " +
+                    data.cityDistrict + " " +
+                    data.cityDistrictType + ", " +
+                    data.streetWithType + ", " +
+                    data.house;
+            userByChatId.setAddres(s);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        userService.saveUser(userByChatId);
+
+        String last = configBean.listStep().get(update.getMessage().getChatId()).getLast();
+        return configBean.map().get(last).apply(update);
     }
 
     private SendMessage refactorAddress(Update update) {
@@ -121,16 +168,23 @@ public class CreateUserButton {
         return CreateButtonEdit.creteButton(list);
     }
 
-
     private SendMessage contactSend(Update update) {
-        userService.saveUser(new User(null,
-                update.getMessage().getContact().getFirstName(),
-                update.getMessage().getContact().getUserId(),
-                null,
-                update.getMessage().getContact().getPhoneNumber(),
-                update.getMessage().getChatId(),
-                false,
-                null));
+
+        User userByChatId = userService.getUserByChatId(update.getMessage().getChatId());
+        if (userByChatId == null) {
+            userByChatId = new User(null,
+                    update.getMessage().getContact().getFirstName(),
+                    update.getMessage().getContact().getUserId(),
+                    null,
+                    update.getMessage().getContact().getPhoneNumber(),
+                    update.getMessage().getChatId(),
+                    false,
+                    null);
+        }
+        userByChatId.setNumber(update.getMessage().getContact().getPhoneNumber());
+        userByChatId.setFistName(update.getMessage().getContact().getFirstName());
+
+        userService.saveUser(userByChatId);
         String last = configBean.listStep().get(update.getMessage().getChatId()).getLast();
         return configBean.map().get(last).apply(update);
     }
@@ -262,11 +316,13 @@ public class CreateUserButton {
     public SendMessage writeMyData(Update update) {
         var list = new ArrayList<String>();
         list.add("Вы можете изменить ваши данные");
+        list.add(command.getCONTACT_SEND());
+        list.add(command.getGEOLOCATION());
         list.add(command.getRefactorName());
         list.add(command.getRefactorAddress());
         list.add(command.getRefactorPhone());
         list.add(command.getBACK());
-        return CreateButtonAll.creteButton(list);
+        return CreateButtonContactAndLocation.creteButton(list);
     } //
 
     @SneakyThrows
@@ -290,8 +346,14 @@ public class CreateUserButton {
         }
         var iterator = list.iterator();
 
+
         var stringMassive = new ArrayList<String>();
-        stringMassive.add("Список ваших заявок");
+        if (list.isEmpty() || list.stream().noneMatch(Order::getFlag)) {
+
+            stringMassive.add("У вас пока нет заявок");
+        } else {
+            stringMassive.add("Список ваших заявок:");
+        }
 
         while (iterator.hasNext()) {
             var d = iterator.next();
@@ -300,12 +362,14 @@ public class CreateUserButton {
             }
             stringMassive.add("Заявка №" + d.getId() + "\n" + "статус - " + d.getStatus());
         }
+
         stringMassive.add(command.getMENU());
 
         return CreateButtonAll.creteButton(stringMassive);
     } //
 
     public SendMessage myRequestTwo(Update update) {
+
         Pattern compile = Pattern.compile("^Заявка №(.*)\\n+.*", Pattern.MULTILINE);
         Matcher matcher = compile.matcher(update.getMessage().getText());
         long l = 0L;
@@ -321,6 +385,7 @@ public class CreateUserButton {
                 "дата заявки " + d.getTime();
 
         stringMassive.add(s);
+        configBean.listStep().get(update.getMessage().getChatId()).add(command.getBACK());
         stringMassive.add(command.getBACK());
         return CreateButtonAll.creteButton(stringMassive);
     }
@@ -446,7 +511,25 @@ public class CreateUserButton {
     @SneakyThrows
     private SendMessage callBackPhone(Update update) {
         var list = new ArrayList<String>();
+
+        User user = userService.getUserByChatId(update.getMessage().getChatId());
+        if (user == null || user.getNumber() == null) {
+            list.add("Сначала добавьте номер телефона во вкладке <мои контакты>");
+            list.add(command.getBACK());
+            return CreateButtonAll.creteButton(list);
+        }
+
         list.add("Мастер свяжется с вами в ближайшее время");
+
+
+        orderService.saveOrder(new Order(null,
+                null,
+                null,
+                null,
+                null,
+                false,
+                "Ждет звонка",
+                user));
         list.add(command.getBACK());
         return CreateButtonAll.creteButton(list);
     }
@@ -485,7 +568,9 @@ public class CreateUserButton {
         Collections.reverse(collect);
         String s = collect.stream().skip(1).limit(2).reduce((s1, s2) -> s2 + " - " + s1).orElse("Ошибка");
 
-        orderService.saveOrder(new Order(null, null, "в обработке", null, 0, true, s, userService.getUserByChatId(update.getMessage().getChatId())));
+        Calendar now = Calendar.getInstance();
+
+        orderService.saveOrder(new Order(null, now.getTime().toString(), "в обработке", null, 0, true, s, userService.getUserByChatId(update.getMessage().getChatId())));
         return CreateButtonAll.creteButton(list);
     }
 

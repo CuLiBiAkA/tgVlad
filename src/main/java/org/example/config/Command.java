@@ -22,7 +22,7 @@ public class Command {
       final String BURNER = "не греет конфорка";
       final String BURNING = "запах гари";
       final String WORKING = "постоянно работает";
-      final String OTHER = "другое: ...";
+      final String OTHER = "другое";
       final String SEND = "отправить";
       final String LAST_METHOD = "ласт";
       final String MENU = "вернуться в меню";
@@ -56,8 +56,8 @@ public class Command {
       final String WRITE_MY_DATA = "ввести данные в ручную";
       final String PROCEED = "оставить заявку используя эти данные";
       final String PROCEED_NO = "редактировать данные";
-      final String CONTACT_SEND = "поделиться данными из ТГ";
-      final String GEOLOCATION = "поделиться данными геолокации";
+      final String CONTACT_SEND = "поделиться данными из telegram";
+      final String GEOLOCATION = "отправить геопозицию";
 
       final String refactorName = "изменить имя";
       final String refactorPhone = "изменить номер";

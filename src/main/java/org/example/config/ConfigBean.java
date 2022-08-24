@@ -21,9 +21,12 @@ public class ConfigBean {
     @Autowired
     private Command command;
 
+    @Autowired
+    private CommandAdmin commandAdmin;
+
     @Bean
     public Set<Long> adminSet() {
-        return Set.of();
+        return Set.of(537347100L);
     } //537347100L
 
     @Bean
@@ -37,6 +40,11 @@ public class ConfigBean {
     }
 
     @Bean
+    public Map<String, Function<Update, SendMessage>> mapAdmin(){
+        return new HashMap<>();
+    }
+
+    @Bean
     public List<String> commandList() {
         var classCommand = command.getClass();
         var fields = classCommand.getDeclaredFields();
@@ -45,6 +53,22 @@ public class ConfigBean {
                 .map(field -> {
                     try {
                         return (String) field.get(command);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
+    }
+
+
+    @Bean
+    public List<String> commandListAdmin() {
+        var classCommand = commandAdmin.getClass();
+        var fields = classCommand.getDeclaredFields();
+
+        return Arrays.stream(fields)
+                .map(field -> {
+                    try {
+                        return (String) field.get(commandAdmin);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }

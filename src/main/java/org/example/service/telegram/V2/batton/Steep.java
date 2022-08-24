@@ -26,9 +26,12 @@ public class Steep {
                 !configBean.listStep().get(update.getMessage().getChatId()).isEmpty() &&
                 !configBean.listStep().get(update.getMessage().getChatId()).equals(command.getSTART()) &&
                 !configBean.listStep().get(update.getMessage().getChatId()).equals(command.getMENU())) {
-
-            configBean.listStep().get(update.getMessage().getChatId()).removeLast(); // удаляем метод назад
-            configBean.listStep().get(update.getMessage().getChatId()).removeLast(); // удаляем метод последний
+            try {
+                configBean.listStep().get(update.getMessage().getChatId()).removeLast(); // удаляем метод назад
+                configBean.listStep().get(update.getMessage().getChatId()).removeLast(); // удаляем метод последний
+            } catch (Exception ignored) {
+                return configBean.map().get(command.getMENU()).apply(update);
+            }
             try {
                 var lastCommandLocal = configBean.listStep().get(update.getMessage().getChatId()).getLast(); // пробуем выполнить метод
                 return configBean.map().get(lastCommandLocal).apply(update);
@@ -44,7 +47,7 @@ public class Steep {
         var commandLocal = update.getMessage().getText();
         var chatIdLocal = update.getMessage().getChatId();
 
-        if (! configBean.listStep().containsKey(chatIdLocal)) {
+        if (!configBean.listStep().containsKey(chatIdLocal)) {
             configBean.listStep().put(chatIdLocal, new ArrayDeque<>());
         }
         if (commandLocal.equals(command.getSTART()) || commandLocal.equals(command.getMENU())) {
