@@ -58,7 +58,6 @@ public class Command {
       final String PROCEED_NO = "редактировать данные";
       final String CONTACT_SEND = "поделиться данными из telegram";
       final String GEOLOCATION = "отправить геопозицию";
-
       final String refactorName = "изменить имя";
       final String refactorPhone = "изменить номер";
       final String refactorAddress = "изменить адрес";

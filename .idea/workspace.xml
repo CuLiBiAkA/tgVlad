@@ -4,23 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.09">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/CommandAdmin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/Data.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/Dto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/DtoGeolocation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/Suggestion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateAdminButton.java" afterDir="false" />
+    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.091">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V3/button/CreateButton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/CommandAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/CommandAdmin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repository/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repository/OrderDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateAdminButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateAdminButton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/Steep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/Steep.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
@@ -69,30 +62,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/1111/IdeaProjects/cmbakeshop_notifications_service",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "spring.configuration.checksum": "b004e96dd9e3003fbc43bd1dedfd4e10"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/1111/IdeaProjects/BotAbstrackt&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.run.dashboard.notification&quot;: &quot;false&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;b004e96dd9e3003fbc43bd1dedfd4e10&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "h2",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;h2&quot;,
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -179,7 +174,42 @@
       <workItem from="1661112800711" duration="12225000" />
       <workItem from="1661161829725" duration="12308000" />
       <workItem from="1661200349342" duration="23736000" />
-      <workItem from="1661251515239" duration="33340000" />
+      <workItem from="1661251515239" duration="33613000" />
+      <workItem from="1661341639019" duration="3602000" />
+      <workItem from="1661387656940" duration="603000" />
+      <workItem from="1661418629850" duration="412000" />
+      <workItem from="1661419537587" duration="5396000" />
+      <workItem from="1661441990764" duration="5457000" />
+      <workItem from="1661510467037" duration="2041000" />
+      <workItem from="1661563554436" duration="6702000" />
+      <workItem from="1661635849715" duration="2900000" />
+      <workItem from="1661780827257" duration="1216000" />
+      <workItem from="1661897013111" duration="1433000" />
+      <workItem from="1662032469559" duration="644000" />
+      <workItem from="1662108092875" duration="676000" />
+      <workItem from="1662145203937" duration="99000" />
+      <workItem from="1662828631769" duration="221000" />
+      <workItem from="1662830337273" duration="4777000" />
+      <workItem from="1662896126644" duration="2559000" />
+      <workItem from="1662907437938" duration="1743000" />
+      <workItem from="1662927082408" duration="8548000" />
+      <workItem from="1662977805648" duration="5748000" />
+      <workItem from="1663009368456" duration="836000" />
+      <workItem from="1663020469096" duration="1647000" />
+      <workItem from="1663097321296" duration="2288000" />
+      <workItem from="1663182164250" duration="1178000" />
+      <workItem from="1663190106760" duration="1268000" />
+      <workItem from="1663258160420" duration="352000" />
+      <workItem from="1663349684915" duration="559000" />
+      <workItem from="1663358953407" duration="2452000" />
+      <workItem from="1663447184089" duration="1591000" />
+      <workItem from="1663872554306" duration="630000" />
+      <workItem from="1664192020963" duration="1231000" />
+      <workItem from="1664526191904" duration="770000" />
+      <workItem from="1665043106622" duration="39000" />
+      <workItem from="1665349737698" duration="3000" />
+      <workItem from="1665492844833" duration="1265000" />
+      <workItem from="1666121881504" duration="571000" />
     </task>
     <task id="LOCAL-00001" summary="BotTgVlad v.01">
       <created>1659780484019</created>
@@ -244,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661225042944</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="BotTgVlad v.091">
+      <created>1661301522672</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1661301522672</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -268,6 +305,18 @@
     <MESSAGE value="BotTgVlad v.07" />
     <MESSAGE value="BotTgVlad v.08" />
     <MESSAGE value="BotTgVlad v.09" />
-    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.09" />
+    <MESSAGE value="BotTgVlad v.091" />
+    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.091" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/service/telegram/TelegramBot.java</url>
+          <line>107</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

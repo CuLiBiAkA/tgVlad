@@ -37,7 +37,7 @@ public class UserPanel implements Panel {
                 configBean.map().containsKey(update.getMessage().getText())) {
             steep.listStepAdd(update);
             SendMessage sendMessage = configBean.map().get(update.getMessage().getText()).apply(update);
-            sendMessage.disableNotification(); // отключили звук сообщения бота
+            sendMessage.disableNotification(); //TODO отключили звук сообщения бота
             return sendMessage;
         }
         if (update.getMessage().hasContact()) {

@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class CreateUserButton {
@@ -118,7 +119,7 @@ public class CreateUserButton {
         HttpHeaders httpHeaders = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setBearerAuth("");
+        httpHeaders.setBearerAuth("Token 1041bbf1cc3940db77ceb277c9c593b332691a5a");
         DtoGeolocation dtoGeolocation = new DtoGeolocation();
         dtoGeolocation.setCount("1");
         dtoGeolocation.setLat(update.getMessage().getLocation().getLatitude().toString());
@@ -132,12 +133,7 @@ public class CreateUserButton {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Dto dto = objectMapper.readValue(response.getBody(), Dto.class);
-            Data data = dto.suggestions.get(0).data;
-            String s = data.cityWithType + ", " +
-                    data.cityDistrict + " " +
-                    data.cityDistrictType + ", " +
-                    data.streetWithType + ", " +
-                    data.house;
+            String s = dto != null ? dto.suggestions.get(0).value : "Не удалось установить адрес по вашей геопозиции";
             userByChatId.setAddres(s);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -521,15 +517,21 @@ public class CreateUserButton {
 
         list.add("Мастер свяжется с вами в ближайшее время");
 
-
-        orderService.saveOrder(new Order(null,
-                null,
-                null,
-                null,
-                null,
-                false,
-                "Ждет звонка",
-                user));
+        Order orderByUserAndFlag = orderService.getOrderByUserAndFlag(userService.getUserByChatId(update.getMessage().getChatId()), false);
+        String data = new Date().toString();
+        if (orderByUserAndFlag != null) {
+            orderByUserAndFlag.setTime(data);
+        } else {
+            orderByUserAndFlag = new Order(null,
+                    data,
+                    null,
+                    null,
+                    null,
+                    false,
+                    "Ждет звонка",
+                    user);
+        }
+        orderService.saveOrder(orderByUserAndFlag);
         list.add(command.getBACK());
         return CreateButtonAll.creteButton(list);
     }

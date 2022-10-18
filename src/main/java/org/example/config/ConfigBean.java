@@ -26,8 +26,8 @@ public class ConfigBean {
 
     @Bean
     public Set<Long> adminSet() {
-        return Set.of(537347100L);
-    } //537347100L
+        return Set.of(537347100L,852564963L);
+    } //537347100L 852564963L
 
     @Bean
     public Map<Long, ArrayDeque<String>> listStep() {

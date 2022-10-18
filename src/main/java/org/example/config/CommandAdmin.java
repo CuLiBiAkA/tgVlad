@@ -12,7 +12,7 @@ public class CommandAdmin {
     final String Menu = "в меню";
     final String A1 = "Новые заявки";
     final String A2 = "Кому нужно перезвонить";
-    final String A3 = "Найти заявку по номеру";
+    final String A3 = "Просят перезвонить";
     final String A4 = "Все пользователи";
     final String A5 = "Все заявки";
 //    final String A6 = "start";
