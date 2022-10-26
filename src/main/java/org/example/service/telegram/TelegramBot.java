@@ -55,6 +55,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         executorService.execute(() -> {
                 if (!update.hasMessage()) {
                     return;
+                    
                 }
                 Message message = update.getMessage();
                 if (!message.hasText() && !message.hasContact() && !message.hasLocation()) {
