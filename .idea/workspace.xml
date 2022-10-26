@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.091">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V3/button/CreateButton.java" afterDir="false" />
+    <list default="true" id="9cefe78c-a181-48dc-9f29-2cbe6a7a6933" name="Changes" comment="BotTgVlad v.092">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/CommandAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/CommandAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repository/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repository/OrderDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateAdminButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateAdminButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/batton/CreateUserButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/AdminPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/telegram/V2/panel/UserPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,6 +61,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/1111/IdeaProjects/BotAbstrackt&quot;,
@@ -209,7 +200,8 @@
       <workItem from="1665043106622" duration="39000" />
       <workItem from="1665349737698" duration="3000" />
       <workItem from="1665492844833" duration="1265000" />
-      <workItem from="1666121881504" duration="571000" />
+      <workItem from="1666121881504" duration="3447000" />
+      <workItem from="1666208595231" duration="601000" />
     </task>
     <task id="LOCAL-00001" summary="BotTgVlad v.01">
       <created>1659780484019</created>
@@ -281,7 +273,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661301522672</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="BotTgVlad v.092">
+      <created>1666123004531</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1666123004531</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -306,7 +305,8 @@
     <MESSAGE value="BotTgVlad v.08" />
     <MESSAGE value="BotTgVlad v.09" />
     <MESSAGE value="BotTgVlad v.091" />
-    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.091" />
+    <MESSAGE value="BotTgVlad v.092" />
+    <option name="LAST_COMMIT_MESSAGE" value="BotTgVlad v.092" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
