@@ -58,7 +58,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         executorService.execute(() -> {
                 if (!update.hasMessage()) {
                     return;
-
+ sdfsdf
 
 
                 }
